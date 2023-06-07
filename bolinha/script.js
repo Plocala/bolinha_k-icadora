@@ -28,8 +28,8 @@ objectId.startButton.addEventListener('click', function(event) {
 // Event listener for the ball
 objectId.bolinha.addEventListener('click', function(event) {
   if (event.button === 0) {
-    objectVar.directionX = Math.round(Math.random() * ((1 + Math.sqrt(5)) / 2));
-    objectVar.directionY = Math.round(Math.random() * ((1 + Math.sqrt(5)) / 2));
+    objectVar.directionX = Math.ceil(Math.random() * ((1 + Math.sqrt(5)) / 2));
+    objectVar.directionY = Math.ceil(Math.random() * ((1 + Math.sqrt(5)) / 2));
 
     if (Math.random() < 0.5) {
       objectVar.directionX = -objectVar.directionX;
