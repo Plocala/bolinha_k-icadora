@@ -20,6 +20,7 @@ objectId.startButton.addEventListener('click', function(event) {
   if (event.button === 0) {
     objectVar.visibleBolinha = true;
     startBolinha();
+
   }
 
 });
@@ -81,8 +82,9 @@ function update() {
   const bolinhaLeft = parseInt(bolinhaStyle.left);
   const bolinhaTop = parseInt(bolinhaStyle.top);
   const velocity = 1.618;
+  const rotateAng = objectVar.directionX * bolinhaLeft;
 
-  objectId.bolinha.style.transform = `rotate(${objectVar.directionX * bolinhaLeft}deg)`;
+  objectId.bolinha.style.transform = `rotate(${rotateAng}deg)`;
   objectId.bolinha.style.left = `${bolinhaLeft + objectVar.directionX * objectVar.moveX * velocity}px`;
   objectId.bolinha.style.top = `${bolinhaTop + objectVar.directionY * objectVar.moveY * velocity}px`;
 
