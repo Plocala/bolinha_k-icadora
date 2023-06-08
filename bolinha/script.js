@@ -1,96 +1,50 @@
-// Get references to HTML elements
-const objectId = {
-  bolinha: document.getElementById("bolinha"),
-  startButton: document.getElementById("startButton"),
+const bolinha = document.getElementById("bolinha");
+const startButton = document.getElementById("startButton");
 
-};
+let moveX = 1.5;
+let moveY = 1.5;
+let directionX = 1;
+let directionY = 1;
 
-// Object to store animation variables
-const objectVar = {
-  visibleBolinha: false,
-  moveX: 1.5,
-  moveY: 1.5,
-  directionX: 1,
-  directionY: 1,
 
-};
-
-// Event listener for the start button
-objectId.startButton.addEventListener('click', function(event) {
-  if (event.button === 0) {
-    objectVar.visibleBolinha = true;
-    startBolinha();
-
-  }
-
+startButton.addEventListener('click', () => {
+  bolinha.style.visibility = "visible";
+  startButton.style.display = "none";
+  
+  update();
+  
 });
 
-// Event listener for the ball
-objectId.bolinha.addEventListener('click', function(event) {
-  if (event.button === 0) {
-    objectVar.directionX = Math.ceil(Math.random() * ((1 + Math.sqrt(5)) / 2));
-    objectVar.directionY = Math.ceil(Math.random() * ((1 + Math.sqrt(5)) / 2));
-
-    if (Math.random() < 0.5) {
-      objectVar.directionX = -objectVar.directionX;
-      objectVar.directionY = -objectVar.directionY;
-
-    }
-
-  }
-
+bolinha.addEventListener('click', () => {
+  directionX = Math.random() < 0.5 ? -1 : 1;
+  directionY = Math.random() < 0.5 ? -1 : 1;
+  
 });
 
-// Function to start the ball animation
-function startBolinha() {
-  if (objectVar.visibleBolinha === true) {
-    objectId.bolinha.style.visibility = "visible";
-    objectId.startButton.style.visibility = "hidden";
-    update();
+function update(){
+  const bolinhaStyle = getComputedStyle(bolinha);
+  const bolinhaLeft = parseInt(bolinhaStyle.left);
+  const bolinhaTop = parseInt(bolinhaStyle.top);
+  const velocity = 1.5;
+
+  if(bolinhaLeft + bolinha.offsetWidth > window.innerWidth || bolinhaLeft < 0){
+    directionX = -directionX;
+    moveX += 0.05;
   
   }
 
-}
-
-// Function to handle ball collisions with window boundaries
-function barreira() {
-  const bolinhaStyle = getComputedStyle(objectId.bolinha);
-  const bolinhaLeft = parseInt(bolinhaStyle.left);
-  const bolinhaTop = parseInt(bolinhaStyle.top);
-  const bolinhaWidth = parseInt(bolinhaStyle.width);
-  const bolinhaHeight = parseInt(bolinhaStyle.height);
-  const windowWidth = window.innerWidth;
-  const windowHeight = window.innerHeight;
-
-  if (bolinhaLeft + bolinhaWidth > windowWidth || bolinhaLeft < 0) {
-    objectVar.directionX = -objectVar.directionX;
-
+  if(bolinhaTop + bolinha.offsetHeight > window.innerHeight || bolinhaTop < 0){
+    directionY = -directionY;
+    moveY += 0.05;
+  
   }
 
-  if (bolinhaTop + bolinhaHeight > windowHeight || bolinhaTop < 0) {
-    objectVar.directionY = -objectVar.directionY;
-
-  }
-
-}
-
-// Function to update the ball position and handle collisions
-function update() {
-  barreira();
-
-  const bolinhaStyle = getComputedStyle(objectId.bolinha);
-  const bolinhaLeft = parseInt(bolinhaStyle.left);
-  const bolinhaTop = parseInt(bolinhaStyle.top);
-  const velocity = 1.618;
-  const rotateAng = objectVar.directionX * bolinhaLeft;
-
-  objectId.bolinha.style.transform = `rotate(${rotateAng}deg)`;
-  objectId.bolinha.style.left = `${bolinhaLeft + objectVar.directionX * objectVar.moveX * velocity}px`;
-  objectId.bolinha.style.top = `${bolinhaTop + objectVar.directionY * objectVar.moveY * velocity}px`;
+  bolinha.style.transform = `rotate(${directionX * bolinhaLeft}deg)`;
+  bolinha.style.left = `${bolinhaLeft + directionX * moveX * velocity}px`;
+  bolinha.style.top = `${bolinhaTop + directionY * moveY * velocity}px`;
 
   requestAnimationFrame(update);
 
 }
 
-// Start the animation
-startBolinha();
+update();
