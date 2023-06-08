@@ -25,7 +25,6 @@ function update(){
   const bolinhaStyle = getComputedStyle(bolinha);
   const bolinhaLeft = parseInt(bolinhaStyle.left);
   const bolinhaTop = parseInt(bolinhaStyle.top);
-  const velocity = 1.5;
 
   if(bolinhaLeft + bolinha.offsetWidth > window.innerWidth || bolinhaLeft < 0){
     directionX = -directionX;
@@ -40,8 +39,8 @@ function update(){
   }
 
   bolinha.style.transform = `rotate(${directionX * bolinhaLeft}deg)`;
-  bolinha.style.left = `${bolinhaLeft + directionX * moveX * velocity}px`;
-  bolinha.style.top = `${bolinhaTop + directionY * moveY * velocity}px`;
+  bolinha.style.left = `${bolinhaLeft + directionX * moveX}px`;
+  bolinha.style.top = `${bolinhaTop + directionY * moveY}px`;
 
   requestAnimationFrame(update);
 
