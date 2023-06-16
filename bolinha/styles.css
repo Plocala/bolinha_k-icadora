@@ -10,6 +10,8 @@ body{
   position: absolute;
   width: 150px;
   height: 150px;
+  left: 45%;
+  top: 45%;
   visibility: hidden;
   z-index: 5;
 

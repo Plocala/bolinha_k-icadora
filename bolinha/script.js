@@ -1,49 +1,61 @@
-const bolinha = document.getElementById("bolinha");
-const startButton = document.getElementById("startButton");
+const objectId = {
+  bolinha: document.getElementById("bolinha"),
+  startButton: document.getElementById("startButton"),
 
-let moveX = 1.5;
-let moveY = 1.5;
-let directionX = 1;
-let directionY = 1;
+}
 
+const objectBolinha = {
+  moveX: 1.5,
+  moveY: 1.5,
+  directionX: 1,
+  directionY: 1,
 
-startButton.addEventListener('click', () => {
-  bolinha.style.visibility = "visible";
-  startButton.style.display = "none";
-  
+}
+
+objectId.startButton.addEventListener('click', () => {
+  objectId.bolinha.style.visibility = "visible";
+  objectId.startButton.style.display = "none";
+
   update();
   
 });
 
-bolinha.addEventListener('click', () => {
-  directionX = Math.random() < 0.5 ? -1 : 1;
-  directionY = Math.random() < 0.5 ? -1 : 1;
+objectId.bolinha.addEventListener('click', () => {
+  objectBolinha.directionX = Math.random() < 0.5 ? -1 : 1;
+  objectBolinha.directionY = Math.random() < 0.5 ? -1 : 1;
   
 });
 
+window.addEventListener('keypress', (event) => {
+  objectBolinha.moveX = event.key === 'r' ? 1.5 : objectBolinha.moveX;
+  objectBolinha.moveY = event.key === 'r' ? 1.5 : objectBolinha.moveY;
+
+  objectBolinha.moveX = event.key === 'c' ? 0 : objectBolinha.moveX;
+  objectBolinha.moveY = event.key === 'c' ? 0 : objectBolinha.moveY;
+
+});
+
 function update(){
-  const bolinhaStyle = getComputedStyle(bolinha);
+  const bolinhaStyle = getComputedStyle(objectId.bolinha);
   const bolinhaLeft = parseInt(bolinhaStyle.left);
   const bolinhaTop = parseInt(bolinhaStyle.top);
 
-  if(bolinhaLeft + bolinha.offsetWidth > window.innerWidth || bolinhaLeft < 0){
-    directionX = -directionX;
-    moveX += 0.05;
+  if(bolinhaLeft + objectId.bolinha.offsetWidth > window.innerWidth || bolinhaLeft < 0){
+    objectBolinha.directionX = -objectBolinha.directionX;
+    objectBolinha.moveX += 0.5;
   
   }
 
-  if(bolinhaTop + bolinha.offsetHeight > window.innerHeight || bolinhaTop < 0){
-    directionY = -directionY;
-    moveY += 0.05;
+  if(bolinhaTop + objectId.bolinha.offsetHeight > window.innerHeight || bolinhaTop < 0){
+    objectBolinha.directionY = -objectBolinha.directionY;
+    objectBolinha.moveY += 0.5;
   
   }
 
-  bolinha.style.transform = `rotate(${directionX * bolinhaLeft}deg)`;
-  bolinha.style.left = `${bolinhaLeft + directionX * moveX}px`;
-  bolinha.style.top = `${bolinhaTop + directionY * moveY}px`;
+  objectId.bolinha.style.transform = `rotate(${objectBolinha.directionX * bolinhaLeft}deg)`;
+  objectId.bolinha.style.left = `${bolinhaLeft + objectBolinha.directionX * objectBolinha.moveX}px`;
+  objectId.bolinha.style.top = `${bolinhaTop + objectBolinha.directionY * objectBolinha.moveY}px`;
 
   requestAnimationFrame(update);
 
 }
-
-update();
